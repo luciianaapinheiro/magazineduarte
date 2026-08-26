@@ -247,8 +247,26 @@
     .mascote-balao{ max-width: 170px; font-size:12px; }
   }
   @media (max-width: 480px){
-    .mascote-wrap{ display:none; }
+    /* Antes ficava display:none (cortado pelo overflow:hidden do .cal-card).
+       Agora flutua fixo no canto da tela, sempre visível e clicável. */
+    .mascote-wrap{
+      position: fixed;
+      right: 12px;
+      bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+      z-index: 40;
+      animation: flutuar 4.5s ease-in-out infinite;
+    }
+    .mascote-img{ height: 76px; }
+    .mascote-balao{
+      max-width: 150px;
+      font-size: 11px;
+      padding: 8px 11px;
+    }
+    .mascote-selo{ font-size: 8.5px; padding: 2px 7px 2px 5px; left: -6px; top: -2px; }
   }
+
+  /* Enquanto o modal está aberto, o mascote fixo não deve ficar por cima dele */
+  body.modal-aberto .mascote-wrap{ display:none; }
 
   .mes-titulo{
     font-family:'Fraunces', serif;
