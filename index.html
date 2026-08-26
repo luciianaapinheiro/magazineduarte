@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Campanha Magazine Duarte — Setembro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Quicksand:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -569,10 +569,20 @@
   .btn-limpar{ background: var(--creme2); color: var(--carvao); }
 
   @media (max-width: 760px){
-    .day .titulo-mini{ display:none; }
+    .day{ min-height: clamp(58px, 17vw, 118px); }
+    .day .titulo-mini{
+      display:-webkit-box;
+      -webkit-line-clamp:1;
+      font-size: 8px;
+      line-height:1.2;
+    }
     .cal-card{ border-radius:20px; }
-    .overlay{ align-items:flex-end; }
-    .modal{ border-radius:20px 20px 0 0; max-height:92vh; }
+    .overlay{ align-items:flex-end; padding:0; }
+    .modal{
+      border-radius:20px 20px 0 0;
+      max-height:92vh;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
     .modal-top{ border-radius:20px 20px 0 0; }
   }
 
@@ -581,18 +591,36 @@
     .brand-mark .eyebrow{ font-size:9.5px; }
     .fala .texto{ font-size:13px; }
     .botoes-modal{ flex-wrap:wrap; }
-    .botoes-modal button{ flex:1 1 auto; text-align:center; }
+    .botoes-modal button{
+      flex:1 1 auto;
+      text-align:center;
+      min-height:44px;
+    }
+    .fechar{
+      min-width:44px;
+      min-height:44px;
+    }
+    /* Evita zoom automático do iOS Safari ao focar campos com fonte < 16px */
+    .editar-area textarea{ font-size:16px; }
   }
 
   @media (max-width: 360px){
     .grid, .dow-row{ gap:2px; }
-    .day{ padding:3px; }
-    .day .num{ font-size:10px; }
+    .day{ padding:3px; min-height:56px; }
+    .day .num{ font-size:11px; }
+    .day .titulo-mini{ display:none; }
     .tag{ padding:1px 4px; }
   }
 
   @media (min-width: 1400px){
     .wrap{ max-width: 1320px; }
+  }
+
+  /* Trava o scroll do body quando o modal está aberto (evita "scroll-through" no iOS) */
+  body.modal-aberto{
+    overflow:hidden;
+    position:fixed;
+    width:100%;
   }
 </style>
 </head>
@@ -988,9 +1016,25 @@ function abrirModal(iso, dado, dataObj){
     </div>
   `;
   overlay.classList.add('aberto');
+  travarScrollBody();
 }
 
-function fecharModal(){ overlay.classList.remove('aberto'); }
+let scrollYAntesModal = 0;
+function travarScrollBody(){
+  scrollYAntesModal = window.scrollY || window.pageYOffset || 0;
+  document.body.style.top = -scrollYAntesModal + 'px';
+  document.body.classList.add('modal-aberto');
+}
+function destravarScrollBody(){
+  document.body.classList.remove('modal-aberto');
+  document.body.style.top = '';
+  window.scrollTo(0, scrollYAntesModal);
+}
+
+function fecharModal(){
+  overlay.classList.remove('aberto');
+  destravarScrollBody();
+}
 overlay.addEventListener('click', (e) => { if(e.target === overlay) fecharModal(); });
 document.addEventListener('keydown', (e) => { if(e.key === 'Escape') fecharModal(); });
 
