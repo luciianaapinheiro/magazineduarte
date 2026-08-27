@@ -96,6 +96,74 @@
   }
   h1 em{ font-style:italic; font-weight:500; color:var(--roxo-duarte); }
 
+  /* ---- Instagram: badge com cores oficiais + balãozinho ---- */
+  .instagram-badge{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    margin-top:9px;
+    padding:6px 13px 6px 7px;
+    border-radius:999px;
+    background:#fff;
+    border:1.5px solid rgba(193,53,132,0.22);
+    box-shadow: 0 4px 12px rgba(193,53,132,0.14);
+    text-decoration:none;
+    width:fit-content;
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .instagram-badge:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(193,53,132,0.22);
+  }
+  .instagram-badge .instagram-icon{
+    height:22px;
+    width:22px;
+    flex-shrink:0;
+  }
+  .instagram-badge .instagram-handle{
+    font-family:'Quicksand', sans-serif;
+    font-weight:700;
+    font-size:12.5px;
+    letter-spacing:0.01em;
+    background: linear-gradient(45deg, #FFDC80 0%, #FCAF45 15%, #F56040 35%, #FD1D1D 50%, #E1306C 65%, #C13584 78%, #833AB4 90%, #5851DB 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+  }
+  .instagram-balao{
+    position:absolute;
+    left:0;
+    bottom:100%;
+    margin-bottom:9px;
+    white-space:nowrap;
+    background: var(--roxo-escuro);
+    color:#fff;
+    font-family:'Quicksand', sans-serif;
+    font-weight:700;
+    font-size:11.5px;
+    padding:6px 12px;
+    border-radius:12px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+    animation: balaoPulsar 2.6s ease-in-out infinite;
+    pointer-events:none;
+  }
+  .instagram-balao::after{
+    content:"";
+    position:absolute;
+    left:18px;
+    top:100%;
+    border:6px solid transparent;
+    border-top-color: var(--roxo-escuro);
+  }
+  @keyframes balaoPulsar{
+    0%, 100%{ transform: translateY(0); }
+    50%{ transform: translateY(-4px); }
+  }
+  @media (max-width: 480px){
+    .instagram-balao{ font-size:10.5px; padding:5px 10px; white-space:normal; max-width:150px; }
+  }
+
   .legenda{
     display:flex;
     gap: clamp(12px, 3vw, 22px);
@@ -651,6 +719,23 @@
       <div>
         <p class="eyebrow">Magazine Duarte · Conteúdo</p>
         <h1>Campanha Magazine Duarte<br><em>— Setembro</em></h1>
+        <a class="instagram-badge" href="https://www.instagram.com/lojasmagazineduarte/" target="_blank" rel="noopener noreferrer" aria-label="Siga o Magazine Duarte no Instagram: @lojasmagazineduarte">
+          <span class="instagram-balao">Siga-nos no Instagram</span>
+          <svg class="instagram-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <radialGradient id="igGradiente" cx="30%" cy="107%" r="150%">
+                <stop offset="0%" stop-color="#FFDD55"/>
+                <stop offset="10%" stop-color="#FFDD55"/>
+                <stop offset="50%" stop-color="#FD1D1D"/>
+                <stop offset="100%" stop-color="#833AB4"/>
+              </radialGradient>
+            </defs>
+            <rect x="2" y="2" width="44" height="44" rx="13" fill="url(#igGradiente)"/>
+            <circle cx="24" cy="24" r="11" fill="none" stroke="#fff" stroke-width="3.2"/>
+            <circle cx="35" cy="13" r="2.6" fill="#fff"/>
+          </svg>
+          <span class="instagram-handle">@lojasmagazineduarte</span>
+        </a>
       </div>
     </div>
     <div class="legenda">
