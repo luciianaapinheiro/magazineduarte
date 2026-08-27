@@ -966,6 +966,7 @@ const diasEditados = lerDiasEditados();
 while(cursor <= fimGrid){
   const iso = chaveISO(cursor);
   const dado = conteudos[iso];
+  const dataDoDia = new Date(cursor); // snapshot fixo desta iteração, evita bug de closure com "cursor" mutável
   const div = document.createElement('div');
   const foraDoMes = cursor.getMonth() !== 8; // setembro = mês 8
   const jaEditado = !!diasEditados[iso];
@@ -988,7 +989,7 @@ while(cursor <= fimGrid){
     mini.textContent = dado.titulo;
     div.appendChild(mini);
 
-    div.addEventListener('click', () => abrirModal(iso, dado, new Date(cursor)));
+    div.addEventListener('click', () => abrirModal(iso, dado, dataDoDia));
   }
 
   grid.appendChild(div);
