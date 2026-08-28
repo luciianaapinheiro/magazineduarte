@@ -183,7 +183,7 @@
   }
   .chip.video{ background: linear-gradient(135deg, var(--lilas), var(--roxo-duarte)); }
   .chip.foto{ background: linear-gradient(135deg, #FFEB99, var(--amarelo)); }
-  .chip.evento{ background: linear-gradient(135deg, #FEB088, var(--laranja)); }
+  .chip.evento{ background: linear-gradient(135deg, var(--roxo-duarte) 0%, var(--lilas) 35%, var(--amarelo) 65%, var(--laranja) 100%); }
 
   /* ===== CALENDAR CARD ===== */
   .cal-card{
@@ -420,8 +420,13 @@
   .day.video:hover{ box-shadow: inset 0 0 0 1.6px var(--roxo-duarte), var(--sombra-forte); }
   .day.foto{ box-shadow: inset 0 0 0 1.6px rgba(253,212,0,0.55), 0 2px 10px rgba(60,27,92,0.06); }
   .day.foto:hover{ box-shadow: inset 0 0 0 1.6px var(--amarelo), var(--sombra-forte); }
-  .day.evento{ box-shadow: inset 0 0 0 1.6px rgba(254,98,0,0.5), 0 2px 10px rgba(60,27,92,0.06); }
-  .day.evento:hover{ box-shadow: inset 0 0 0 1.6px var(--laranja), var(--sombra-forte); }
+  .day.evento{
+    box-shadow: inset 0 0 0 1.6px transparent, 0 2px 10px rgba(60,27,92,0.06);
+    border-image: linear-gradient(135deg, var(--roxo-duarte) 0%, var(--lilas) 35%, var(--amarelo) 65%, var(--laranja) 100%) 1;
+    border-width:1.6px;
+    border-style:solid;
+  }
+  .day.evento:hover{ box-shadow: 0 0 0 0 transparent, var(--sombra-forte); }
 
   .day.editado::after{
     content:"editado";
@@ -460,6 +465,26 @@
     z-index:1;
   }
 
+  .day.pronto{ box-shadow: inset 0 0 0 2px var(--laranja), 0 2px 10px rgba(60,27,92,0.06); }
+  .day.pronto:hover{ box-shadow: inset 0 0 0 2px var(--laranja), var(--sombra-forte); }
+  .day.pronto::before{
+    content:"pronto";
+    position:absolute;
+    top:6px; left:6px;
+    background: var(--laranja);
+    color:#fff;
+    font-family:'Quicksand', sans-serif;
+    font-weight:700;
+    font-size: clamp(6.5px, 1.6vw, 8.5px);
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    padding:2px 6px;
+    border-radius:999px;
+    box-shadow:0 2px 6px rgba(254,98,0,0.4);
+    white-space:nowrap;
+    z-index:1;
+  }
+
   .status-toggle{
     display:flex;
     gap:8px;
@@ -493,6 +518,11 @@
     color:#fff;
     box-shadow:0 4px 10px rgba(31,138,76,0.35);
   }
+  .status-toggle button.btn-pronto.ativo{
+    background: var(--laranja);
+    color:#fff;
+    box-shadow:0 4px 10px rgba(254,98,0,0.35);
+  }
 
   .tag{
     align-self:flex-start;
@@ -508,7 +538,10 @@
   }
   .tag.video{ background: var(--lilas-bg); color: var(--roxo-escuro); }
   .tag.foto{ background: var(--amarelo-bg); color: var(--amarelo-escuro); }
-  .tag.evento{ background: var(--laranja-bg); color: var(--dourado-escuro); }
+  .tag.evento{
+    background: linear-gradient(90deg, rgba(100,0,86,0.14) 0%, rgba(196,138,255,0.18) 35%, rgba(253,212,0,0.24) 65%, rgba(254,98,0,0.22) 100%);
+    color: var(--roxo-escuro);
+  }
 
   .day .titulo-mini{
     font-family:'Manrope', sans-serif;
@@ -573,7 +606,7 @@
   }
   .modal-top.video{ background: linear-gradient(135deg, var(--roxo-duarte), var(--roxo-escuro)); }
   .modal-top.foto{ background: linear-gradient(135deg, #F0BE00, var(--amarelo-escuro)); }
-  .modal-top.evento{ background: linear-gradient(135deg, var(--laranja), #B34600); }
+  .modal-top.evento{ background: linear-gradient(135deg, var(--roxo-duarte) 0%, var(--lilas) 35%, var(--amarelo) 65%, var(--laranja) 100%); }
 
   .modal-top .data-grande{
     font-family:'Fraunces', serif;
@@ -735,6 +768,13 @@
       flex:1 1 auto;
       text-align:center;
       min-height:44px;
+    }
+    .status-toggle{
+      flex-wrap:wrap;
+    }
+    .status-toggle button{
+      flex:1 1 100%;
+      min-height:42px;
     }
     .fechar{
       min-width:44px;
@@ -1113,8 +1153,8 @@ while(cursor <= fimGrid){
   const div = document.createElement('div');
   const foraDoMes = cursor.getMonth() !== 8; // setembro = mês 8
   const jaEditado = !!diasEditados[iso];
-  const publicado = dado ? (statusDoDia(iso) === 'publicado') : false;
-  div.className = 'day' + (foraDoMes ? ' outro-mes':'') + (dado ? ' tem-conteudo '+dado.tipo : '') + (jaEditado ? ' editado' : '') + (publicado ? ' publicado' : '');
+  const statusDia = dado ? statusDoDia(iso) : 'pendente';
+  div.className = 'day' + (foraDoMes ? ' outro-mes':'') + (dado ? ' tem-conteudo '+dado.tipo : '') + (jaEditado ? ' editado' : '') + (statusDia==='publicado' ? ' publicado' : '') + (statusDia==='pronto' ? ' pronto' : '');
   div.dataset.iso = iso;
 
   const num = document.createElement('div');
@@ -1171,6 +1211,7 @@ function abrirModal(iso, dado, dataObj){
 
       <div class="status-toggle">
         <button id="btn-pendente-${iso}" class="btn-pendente ${statusAtual==='pendente' ? 'ativo' : ''}" onclick="definirStatus('${iso}','pendente')">○ Pendente</button>
+        <button id="btn-pronto-${iso}" class="btn-pronto ${statusAtual==='pronto' ? 'ativo' : ''}" onclick="definirStatus('${iso}','pronto')">◐ Conteúdo Pronto</button>
         <button id="btn-publicado-${iso}" class="btn-publicado ${statusAtual==='publicado' ? 'ativo' : ''}" onclick="definirStatus('${iso}','publicado')">✓ Publicado</button>
       </div>
 
@@ -1217,23 +1258,28 @@ function marcarDiaEditado(iso){
 
 function definirStatus(iso, status){
   // "pendente" é o estado padrão: não guardamos chave no localStorage para ele,
-  // só gravamos quando o dia é marcado como "publicado". Clicar em Pendente
-  // de novo remove a marcação e volta ao padrão, cancelando o Publicado.
-  if(status === 'publicado'){
-    localStorage.setItem('status-'+iso, 'publicado');
+  // só gravamos quando o dia é marcado como "pronto" ou "publicado". Clicar de
+  // novo em Pendente remove a marcação e volta ao padrão, cancelando a opção anterior.
+  if(status === 'pronto' || status === 'publicado'){
+    localStorage.setItem('status-'+iso, status);
   } else {
     localStorage.removeItem('status-'+iso);
   }
 
   // Atualiza os botões dentro do modal
   const btnPendente = document.getElementById('btn-pendente-'+iso);
+  const btnPronto = document.getElementById('btn-pronto-'+iso);
   const btnPublicado = document.getElementById('btn-publicado-'+iso);
   if(btnPendente) btnPendente.classList.toggle('ativo', status === 'pendente');
+  if(btnPronto) btnPronto.classList.toggle('ativo', status === 'pronto');
   if(btnPublicado) btnPublicado.classList.toggle('ativo', status === 'publicado');
 
   // Atualiza o quadradinho no calendário, automaticamente, sem precisar recarregar
   const celula = document.querySelector('.day[data-iso="'+iso+'"]');
-  if(celula) celula.classList.toggle('publicado', status === 'publicado');
+  if(celula){
+    celula.classList.toggle('pronto', status === 'pronto');
+    celula.classList.toggle('publicado', status === 'publicado');
+  }
 }
 
 function salvarNota(iso){
