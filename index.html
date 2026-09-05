@@ -380,6 +380,60 @@
     grid-template-columns: repeat(7, 1fr);
     gap: clamp(3px, 1.5vw, 12px);
   }
+  .grid[hidden]{ display:none; }
+
+  .mes-nav{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin: 4px 0 clamp(14px, 3vw, 22px);
+  }
+  .mes-nav .mes-titulo{ margin:0; flex:1; }
+  .mes-nav-seta{
+    width:38px; height:38px;
+    border-radius:50%;
+    border:1.5px solid var(--lilas);
+    background:#fff;
+    color: var(--roxo-duarte);
+    font-size:19px;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition: all .2s ease;
+    flex-shrink:0;
+  }
+  .mes-nav-seta:hover:not(:disabled){
+    background: var(--roxo-duarte);
+    color:#fff;
+    border-color: var(--roxo-duarte);
+    box-shadow: var(--sombra);
+  }
+  .mes-nav-seta:disabled{ opacity:.3; cursor:not-allowed; }
+
+  .day.aberto{
+    background:#fff;
+    border:1.5px dashed var(--lilas);
+    cursor:pointer;
+  }
+  .day.aberto:hover{ border-color: var(--roxo-duarte); box-shadow: var(--sombra); }
+  .day.aberto .aberto-label{
+    font-size: clamp(7.5px, 1.8vw, 10px);
+    color: var(--cinza);
+    font-weight:600;
+    margin-top:auto;
+  }
+
+  .day.stories-only{
+    background:#E3F6F5;
+    border:1.5px solid #0E9AA7;
+    cursor:pointer;
+  }
+  .day.stories-only:hover{ border-color:#0E9AA7; box-shadow: var(--sombra); }
+  .day.stories-only .aberto-label{
+    font-size: clamp(7.5px, 1.8vw, 10px);
+    color:#0E7480;
+    font-weight:700;
+    margin-top:auto;
+  }
 
   .day{
     position:relative;
@@ -485,6 +539,48 @@
     z-index:1;
   }
 
+  .day.aprovado{ box-shadow: inset 0 0 0 2px #3E7A45, 0 2px 10px rgba(60,27,92,0.06); }
+  .day.aprovado:hover{ box-shadow: inset 0 0 0 2px #3E7A45, var(--sombra-forte); }
+  .day.aprovado::before{
+    content:"aprovado";
+    position:absolute; top:6px; left:6px;
+    background:#3E7A45; color:#fff;
+    font-family:'Quicksand', sans-serif; font-weight:700;
+    font-size: clamp(6.5px, 1.6vw, 8.5px);
+    letter-spacing:.04em; text-transform:uppercase;
+    padding:2px 6px; border-radius:999px;
+    box-shadow:0 2px 6px rgba(62,122,69,0.4);
+    white-space:nowrap; z-index:1;
+  }
+
+  .day.reprovado{ box-shadow: inset 0 0 0 2px #C1392B, 0 2px 10px rgba(60,27,92,0.06); }
+  .day.reprovado:hover{ box-shadow: inset 0 0 0 2px #C1392B, var(--sombra-forte); }
+  .day.reprovado::before{
+    content:"reprovado";
+    position:absolute; top:6px; left:6px;
+    background:#C1392B; color:#fff;
+    font-family:'Quicksand', sans-serif; font-weight:700;
+    font-size: clamp(6.5px, 1.6vw, 8.5px);
+    letter-spacing:.04em; text-transform:uppercase;
+    padding:2px 6px; border-radius:999px;
+    box-shadow:0 2px 6px rgba(193,57,43,0.4);
+    white-space:nowrap; z-index:1;
+  }
+
+  .day.correcao{ box-shadow: inset 0 0 0 2px #E07B23, 0 2px 10px rgba(60,27,92,0.06); }
+  .day.correcao:hover{ box-shadow: inset 0 0 0 2px #E07B23, var(--sombra-forte); }
+  .day.correcao::before{
+    content:"correção";
+    position:absolute; top:6px; left:6px;
+    background:#E07B23; color:#fff;
+    font-family:'Quicksand', sans-serif; font-weight:700;
+    font-size: clamp(6.5px, 1.6vw, 8.5px);
+    letter-spacing:.04em; text-transform:uppercase;
+    padding:2px 6px; border-radius:999px;
+    box-shadow:0 2px 6px rgba(224,123,35,0.4);
+    white-space:nowrap; z-index:1;
+  }
+
   .status-toggle{
     display:flex;
     gap:8px;
@@ -522,6 +618,132 @@
     background: var(--laranja);
     color:#fff;
     box-shadow:0 4px 10px rgba(254,98,0,0.35);
+  }
+  .status-toggle button.btn-aprovado.ativo{
+    background:#3E7A45;
+    color:#fff;
+    box-shadow:0 4px 10px rgba(62,122,69,0.35);
+  }
+  .status-toggle button.btn-reprovado.ativo{
+    background:#C1392B;
+    color:#fff;
+    box-shadow:0 4px 10px rgba(193,57,43,0.35);
+  }
+  .status-toggle button.btn-correcao.ativo{
+    background:#E07B23;
+    color:#fff;
+    box-shadow:0 4px 10px rgba(224,123,35,0.35);
+  }
+
+  .status-toggle{ flex-wrap:wrap; }
+
+  .campo-editavel{
+    width:100%;
+    border:1.5px solid rgba(91,42,134,0.14);
+    border-radius:12px;
+    padding:10px 13px;
+    font-family:'Fraunces', serif;
+    font-size:16px;
+    background:#fff;
+    color: var(--carvao);
+  }
+  .campo-editavel:focus{ outline:none; border-color: var(--roxo-duarte); }
+
+  .tipo-toggle, .stories-toggle-row{
+    display:flex;
+    gap:8px;
+    margin-top:8px;
+    flex-wrap:wrap;
+  }
+  .tipo-btn{
+    flex:1; min-width:90px;
+    border:1.5px solid rgba(91,42,134,0.14);
+    background:#fff;
+    padding:9px 8px;
+    border-radius:12px;
+    font-family:'Quicksand', sans-serif;
+    font-weight:700;
+    font-size:12.5px;
+    color: var(--carvao);
+    cursor:pointer;
+    transition:.15s;
+  }
+  .tipo-btn.ativo.video{ background: var(--lilas-bg); border-color: var(--roxo-duarte); color: var(--roxo-escuro); }
+  .tipo-btn.ativo.foto{ background: var(--amarelo-bg); border-color: var(--amarelo-escuro); color: var(--amarelo-escuro); }
+  .tipo-btn.ativo.evento{
+    background: linear-gradient(90deg, rgba(100,0,86,0.14) 0%, rgba(196,138,255,0.18) 35%, rgba(253,212,0,0.24) 65%, rgba(254,98,0,0.22) 100%);
+    border-color: var(--laranja);
+    color: var(--roxo-escuro);
+  }
+
+  .stories-btn{
+    width:100%;
+    border:1.5px dashed rgba(91,42,134,0.2);
+    background:#fff;
+    padding:11px 10px;
+    border-radius:12px;
+    font-family:'Quicksand', sans-serif;
+    font-weight:700;
+    font-size:13px;
+    color: var(--carvao);
+    cursor:pointer;
+    transition:.15s;
+  }
+  .stories-btn.ativo{
+    border-style:solid;
+    border-color:#0E9AA7;
+    background:#E3F6F5;
+    color:#0E7480;
+  }
+
+  .upload-box{
+    border:1.5px dashed rgba(91,42,134,0.2);
+    border-radius:14px;
+    padding:14px;
+    text-align:center;
+    background:#fff;
+    margin-top:8px;
+  }
+  .upload-box input[type=file]{ font-size:12px; }
+  .upload-hint{ font-size:10.5px; color: var(--cinza); margin-top:6px; }
+  .upload-row{ display:flex; gap:8px; margin-top:10px; }
+  .upload-row input{
+    flex:1;
+    border:1px solid rgba(91,42,134,0.14);
+    border-radius:10px;
+    padding:9px 11px;
+    font-family:'Manrope', sans-serif;
+    font-size:12.5px;
+    background: var(--creme);
+    color: var(--carvao);
+  }
+  .upload-row button{
+    border:none;
+    background: var(--roxo-duarte);
+    color:#fff;
+    border-radius:10px;
+    padding:0 16px;
+    font-size:12.5px;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .preview-area{ margin-top:10px; }
+  .preview-item img{ max-width:100%; border-radius:12px; display:block; box-shadow:0 8px 18px rgba(60,27,92,0.14); }
+  .preview-item a{ font-size:13px; color: var(--roxo-duarte); word-break:break-all; }
+  .preview-controls{ display:flex; align-items:center; gap:10px; margin-top:8px; flex-wrap:wrap; }
+  .preview-arrow{
+    width:30px; height:30px; border-radius:50%;
+    border:1.5px solid rgba(91,42,134,0.2);
+    background:#fff; color: var(--roxo-duarte);
+    font-size:16px; line-height:1; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .preview-arrow:hover:not(:disabled){ background: var(--roxo-duarte); color:#fff; border-color: var(--roxo-duarte); }
+  .preview-arrow:disabled{ opacity:.3; cursor:not-allowed; }
+  .preview-counter{ font-size:12px; color: var(--cinza); font-weight:700; }
+  .preview-remove{
+    margin-left:auto; font-size:11.5px; color:#C1392B;
+    background:none; border:none; cursor:pointer; text-decoration:underline; padding:0;
   }
 
   .tag{
@@ -710,6 +932,17 @@
     display:block;
     margin-bottom:8px;
   }
+  .rotulo-secao{
+    font-family:'Quicksand', sans-serif;
+    font-weight:700;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color: var(--cinza);
+    display:block;
+    margin:18px 0 8px;
+  }
+  .rotulo-secao:first-child{ margin-top:0; }
   .editar-area textarea{
     width:100%;
     min-height: 90px;
@@ -740,6 +973,14 @@
   .botoes-modal button:hover{ transform: translateY(-1px); }
   .btn-salvar{ background: var(--roxo-duarte); color:#fff; }
   .btn-limpar{ background: var(--creme2); color: var(--carvao); }
+
+  .dica-salvo{
+    font-size:11px;
+    color: var(--cinza);
+    margin-top:6px;
+    text-align:right;
+    min-height:14px;
+  }
 
   @media (max-width: 760px){
     .day{ min-height: clamp(58px, 17vw, 118px); }
@@ -773,7 +1014,7 @@
       flex-wrap:wrap;
     }
     .status-toggle button{
-      flex:1 1 100%;
+      flex:1 1 46%;
       min-height:42px;
     }
     .fechar{
@@ -845,11 +1086,15 @@
       <div class="mascote-balao" id="mascoteBalao"></div>
       <img class="mascote-img" id="mascoteImg" src="" alt="Mascote Magazine Duarte" title="Clique em mim! Eu sou interativo — reajo, mudo de pose sozinho e aviso quando o calendário muda.">
     </div>
-    <p class="mes-titulo">Mês dos Móveis <span>31 AGO — 30 SET 2026 · clique em um dia para ver o roteiro completo</span></p>
+    <div class="mes-nav">
+      <button class="mes-nav-seta" id="mesAnteriorBtn" aria-label="Mês anterior">‹</button>
+      <p class="mes-titulo" id="mesTituloEl">Setembro de 2026 <span id="mesTituloSub">clique em um dia para ver, editar ou criar o conteúdo</span></p>
+      <button class="mes-nav-seta" id="mesProximoBtn" aria-label="Próximo mês">›</button>
+    </div>
     <div class="dow-row">
       <div>Seg</div><div>Ter</div><div>Qua</div><div>Qui</div><div>Sex</div><div>Sáb</div><div>Dom</div>
     </div>
-    <div class="grid" id="grid"></div>
+    <div id="gridsContainer"></div>
   </div>
 
   <footer class="rodape">Calendário editável — clique nos dias destacados para abrir, editar ou anotar o conteúdo do dia.</footer>
@@ -1122,111 +1367,245 @@ const conteudos = {
   ]},
 };
 
-// ---- construção do calendário: 31/08/2026 (segunda) até 30/09/2026, completando a última semana ----
+
+window.CONTEUDOS = conteudos;
+const postsCache = {};
+
 function chaveISO(d){ return d.toISOString().slice(0,10); }
 
-const inicio = new Date(2026,7,31); // 31 ago 2026 (segunda-feira)
-const fim = new Date(2026,8,30);    // 30 set 2026
+const MESES = [
+  {label:"Setembro de 2026", ano:2026, mes:8},
+  {label:"Outubro de 2026", ano:2026, mes:9},
+  {label:"Novembro de 2026", ano:2026, mes:10},
+  {label:"Dezembro de 2026", ano:2026, mes:11},
+  {label:"Janeiro de 2027", ano:2027, mes:0},
+  {label:"Fevereiro de 2027", ano:2027, mes:1},
+  {label:"Março de 2027", ano:2027, mes:2},
+  {label:"Abril de 2027", ano:2027, mes:3},
+  {label:"Maio de 2027", ano:2027, mes:4},
+  {label:"Junho de 2027", ano:2027, mes:5},
+  {label:"Julho de 2027", ano:2027, mes:6},
+  {label:"Agosto de 2027", ano:2027, mes:7},
+  {label:"Setembro de 2027", ano:2027, mes:8},
+  {label:"Outubro de 2027", ano:2027, mes:9},
+  {label:"Novembro de 2027", ano:2027, mes:10},
+  {label:"Dezembro de 2027", ano:2027, mes:11}
+];
 
-// completar até domingo da última semana
-let fimGrid = new Date(fim);
-while(fimGrid.getDay() !== 0){ fimGrid.setDate(fimGrid.getDate()+1); }
+const gridsContainer = document.getElementById('gridsContainer');
 
-const grid = document.getElementById('grid');
-let cursor = new Date(inicio);
+MESES.forEach((m, idx)=>{
+  const inicioMes = new Date(m.ano, m.mes, 1);
+  const fimMes = new Date(m.ano, m.mes+1, 0); // último dia do mês
 
-function lerDiasEditados(){
-  try{ return JSON.parse(localStorage.getItem('diasEditados') || '{}'); }
-  catch(e){ return {}; }
-}
+  // início: segunda-feira da semana que contém o dia 1
+  let inicioGrid = new Date(inicioMes);
+  const wdInicio = (inicioGrid.getDay()+6)%7; // 0=segunda..6=domingo
+  inicioGrid.setDate(inicioGrid.getDate() - wdInicio);
 
-function statusDoDia(iso){
-  return localStorage.getItem('status-'+iso) || 'pendente';
-}
+  // fim: domingo da semana que contém o último dia
+  let fimGrid = new Date(fimMes);
+  while(fimGrid.getDay() !== 0){ fimGrid.setDate(fimGrid.getDate()+1); }
 
-const diasEditados = lerDiasEditados();
+  const gridEl = document.createElement('div');
+  gridEl.className = 'grid';
+  gridEl.id = 'grid-'+idx;
+  gridEl.hidden = true;
 
-while(cursor <= fimGrid){
-  const iso = chaveISO(cursor);
-  const dado = conteudos[iso];
-  const dataDoDia = new Date(cursor); // snapshot fixo desta iteração, evita bug de closure com "cursor" mutável
-  const div = document.createElement('div');
-  const foraDoMes = cursor.getMonth() !== 8; // setembro = mês 8
-  const jaEditado = !!diasEditados[iso];
-  const statusDia = dado ? statusDoDia(iso) : 'pendente';
-  div.className = 'day' + (foraDoMes ? ' outro-mes':'') + (dado ? ' tem-conteudo '+dado.tipo : '') + (jaEditado ? ' editado' : '') + (statusDia==='publicado' ? ' publicado' : '') + (statusDia==='pronto' ? ' pronto' : '');
-  div.dataset.iso = iso;
+  let cursor = new Date(inicioGrid);
+  while(cursor <= fimGrid){
+    const iso = chaveISO(cursor);
+    const dado = conteudos[iso];
+    const dataDoDia = new Date(cursor); // snapshot fixo desta iteração
+    const div = document.createElement('div');
+    const foraDoMes = cursor.getMonth() !== m.mes;
 
-  const num = document.createElement('div');
-  num.className = 'num';
-  num.textContent = cursor.getDate();
-  div.appendChild(num);
+    const num = document.createElement('div');
+    num.className = 'num';
+    num.textContent = cursor.getDate();
 
-  if(dado){
-    const tag = document.createElement('div');
-    tag.className = 'tag ' + dado.tipo;
-    tag.textContent = dado.tipo === 'video' ? 'Vídeo' : (dado.tipo === 'foto' ? 'Foto' : 'Evento');
-    div.appendChild(tag);
+    if(foraDoMes){
+      div.className = 'day outro-mes';
+      div.appendChild(num);
+    } else {
+      div.dataset.iso = iso;
+      if(dado){
+        div.className = 'day tem-conteudo ' + dado.tipo;
+        div.appendChild(num);
+        const tag = document.createElement('div');
+        tag.className = 'tag ' + dado.tipo;
+        tag.textContent = dado.tipo === 'video' ? 'Vídeo' : (dado.tipo === 'foto' ? 'Foto' : 'Evento');
+        div.appendChild(tag);
+        const mini = document.createElement('div');
+        mini.className = 'titulo-mini';
+        mini.textContent = dado.titulo;
+        div.appendChild(mini);
+      } else {
+        div.className = 'day aberto';
+        div.appendChild(num);
+        const lbl = document.createElement('div');
+        lbl.className = 'aberto-label';
+        lbl.textContent = 'Em aberto';
+        div.appendChild(lbl);
+      }
+      div.addEventListener('click', () => abrirModal(iso, dataDoDia));
+    }
 
-    const mini = document.createElement('div');
-    mini.className = 'titulo-mini';
-    mini.textContent = dado.titulo;
-    div.appendChild(mini);
-
-    div.addEventListener('click', () => abrirModal(iso, dado, dataDoDia));
+    gridEl.appendChild(div);
+    cursor.setDate(cursor.getDate()+1);
   }
 
-  grid.appendChild(div);
-  cursor.setDate(cursor.getDate()+1);
+  gridsContainer.appendChild(gridEl);
+});
+
+function indiceMesAtual(){
+  const hoje = new Date();
+  const hojeYM = hoje.getFullYear()*12 + hoje.getMonth();
+  for(let i=0;i<MESES.length;i++){
+    if(MESES[i].ano*12+MESES[i].mes === hojeYM) return i;
+  }
+  const primeiroYM = MESES[0].ano*12+MESES[0].mes;
+  const ultimoYM = MESES[MESES.length-1].ano*12+MESES[MESES.length-1].mes;
+  if(hojeYM < primeiroYM) return 0;
+  if(hojeYM > ultimoYM) return MESES.length-1;
+  return 0;
 }
+
+let mesAtualIdx = indiceMesAtual();
+
+function mostrarMes(idx){
+  if(idx<0 || idx>=MESES.length) return;
+  mesAtualIdx = idx;
+  document.querySelectorAll('#gridsContainer .grid').forEach(g=> g.hidden = true);
+  document.getElementById('grid-'+idx).hidden = false;
+  const tituloEl = document.getElementById('mesTituloEl');
+  if(tituloEl && tituloEl.firstChild){ tituloEl.firstChild.textContent = MESES[idx].label + ' '; }
+  document.getElementById('mesAnteriorBtn').disabled = (idx===0);
+  document.getElementById('mesProximoBtn').disabled = (idx===MESES.length-1);
+}
+document.getElementById('mesAnteriorBtn').addEventListener('click', ()=>mostrarMes(mesAtualIdx-1));
+document.getElementById('mesProximoBtn').addEventListener('click', ()=>mostrarMes(mesAtualIdx+1));
+mostrarMes(mesAtualIdx);
 
 // ---- modal ----
 const overlay = document.getElementById('overlay');
 const modal = document.getElementById('modal');
+let currentMediaIndex = 0;
 
-function abrirModal(iso, dado, dataObj){
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function debounce(fn, ms){
+  let t;
+  return (...a)=>{ clearTimeout(t); t = setTimeout(()=>fn(...a), ms); };
+}
+
+async function abrirModal(iso, dataObj){
+  const dado = conteudos[iso] || null;
   const diaSemana = DIAS_SEMANA[dataObj.getDay()];
   const dataFormatada = String(dataObj.getDate()).padStart(2,'0') + '/' + String(dataObj.getMonth()+1).padStart(2,'0');
-  const statusAtual = statusDoDia(iso);
 
-  let falasHTML = dado.falas.map(f => `
-    <div class="fala ${f.tipo}">
-      <div class="quem">${f.quem}</div>
-      <div class="texto">${f.texto}</div>
-    </div>
-  `).join('');
+  const saved = (await window.loadPost(iso)) || { status:'pendente', anotacoes:'', mediaList:[] };
+  if(!saved.mediaList) saved.mediaList = [];
+  postsCache[iso] = saved;
 
-  const tipoLabel = dado.tipo === 'video' ? 'Conteúdo de Vídeo' : (dado.tipo === 'foto' ? 'Conteúdo de Foto' : 'Evento da campanha');
+  const statusAtual = saved.status || 'pendente';
+  const tipoAtual = saved.tipo || (dado ? dado.tipo : 'video');
+  const tituloAtual = saved.titulo || (dado ? dado.titulo : '');
+  const storiesAtivo = !!saved.stories;
+
+  let falasHTML = '';
+  if(dado && dado.falas && dado.falas.length){
+    falasHTML = dado.falas.map(f => `
+      <div class="fala ${f.tipo}">
+        <div class="quem">${f.quem}</div>
+        <div class="texto">${f.texto}</div>
+      </div>
+    `).join('');
+  }
+
+  const tipoLabel = tipoAtual === 'video' ? 'Conteúdo de Vídeo' : (tipoAtual === 'foto' ? 'Conteúdo de Foto' : 'Evento da campanha');
 
   modal.innerHTML = `
-    <div class="modal-top ${dado.tipo}">
+    <div class="modal-top ${tipoAtual}" id="modalTopEl">
       <button class="fechar" onclick="fecharModal()">✕</button>
       <div class="dia-semana">${diaSemana}-FEIRA</div>
       <div class="data-grande">${dataFormatada}</div>
-      <span class="tag-modal">${tipoLabel}</span>
+      <span class="tag-modal" id="tagModalEl">${tipoLabel}</span>
     </div>
     <div class="modal-corpo">
-      <h3>${dado.titulo}</h3>
-      <div class="roteiro">${falasHTML}</div>
+      <label class="rotulo-secao" style="margin-top:0;">Título</label>
+      <input type="text" id="titulo-input-${iso}" class="campo-editavel" placeholder="Título deste conteúdo" value="${escapeHtml(tituloAtual)}" />
 
+      ${falasHTML ? `<div class="roteiro">${falasHTML}</div>` : ''}
+
+      <label class="rotulo-secao">Tipo de conteúdo</label>
+      <div class="tipo-toggle">
+        <button class="tipo-btn video ${tipoAtual==='video'?'ativo':''}" data-t="video">Vídeo</button>
+        <button class="tipo-btn foto ${tipoAtual==='foto'?'ativo':''}" data-t="foto">Foto</button>
+        <button class="tipo-btn evento ${tipoAtual==='evento'?'ativo':''}" data-t="evento">Evento</button>
+      </div>
+
+      <label class="rotulo-secao">Stories</label>
+      <button class="stories-btn ${storiesAtivo?'ativo':''}" id="stories-btn-${iso}">${storiesAtivo ? '✓ Stories também vai ser postado' : '+ Acrescentar Stories'}</button>
+
+      <label class="rotulo-secao">Arte / mídia</label>
+      <div class="upload-box">
+        <input type="file" id="file-input-${iso}" accept="image/*" multiple />
+        <div class="upload-hint">A imagem é comprimida automaticamente antes de salvar.</div>
+        <div class="upload-row">
+          <input type="url" id="video-link-${iso}" placeholder="ou cole aqui o link do vídeo" />
+          <button id="attach-video-${iso}">Anexar</button>
+        </div>
+      </div>
+      <div class="preview-area" id="preview-area-${iso}"><span style="font-size:12px;color:var(--cinza);">Carregando...</span></div>
+
+      <label class="rotulo-secao">Status</label>
       <div class="status-toggle">
-        <button id="btn-pendente-${iso}" class="btn-pendente ${statusAtual==='pendente' ? 'ativo' : ''}" onclick="definirStatus('${iso}','pendente')">○ Pendente</button>
-        <button id="btn-pronto-${iso}" class="btn-pronto ${statusAtual==='pronto' ? 'ativo' : ''}" onclick="definirStatus('${iso}','pronto')">◐ Conteúdo Pronto</button>
-        <button id="btn-publicado-${iso}" class="btn-publicado ${statusAtual==='publicado' ? 'ativo' : ''}" onclick="definirStatus('${iso}','publicado')">✓ Publicado</button>
+        <button id="btn-pendente-${iso}" class="btn-pendente ${statusAtual==='pendente' ? 'ativo' : ''}" data-s="pendente">○ Pendente</button>
+        <button id="btn-aprovado-${iso}" class="btn-aprovado ${statusAtual==='aprovado' ? 'ativo' : ''}" data-s="aprovado">✓ Aprovado</button>
+        <button id="btn-reprovado-${iso}" class="btn-reprovado ${statusAtual==='reprovado' ? 'ativo' : ''}" data-s="reprovado">✕ Reprovado</button>
+        <button id="btn-correcao-${iso}" class="btn-correcao ${statusAtual==='correcao' ? 'ativo' : ''}" data-s="correcao">✎ Correção</button>
+        <button id="btn-pronto-${iso}" class="btn-pronto ${statusAtual==='pronto' ? 'ativo' : ''}" data-s="pronto">◐ Conteúdo Pronto</button>
+        <button id="btn-publicado-${iso}" class="btn-publicado ${statusAtual==='publicado' ? 'ativo' : ''}" data-s="publicado">✓ Publicado</button>
+      </div>
+      <div class="editar-area" id="nota-correcao-wrap-${iso}" style="display:${statusAtual==='correcao'?'block':'none'};">
+        <label>O que precisa ajustar</label>
+        <textarea id="nota-correcao-${iso}" placeholder="Descreva a correção pedida...">${escapeHtml(saved.nota_correcao || '')}</textarea>
       </div>
 
       <div class="editar-area">
         <label>Anotações / ajustes deste dia</label>
-        <textarea id="nota-${iso}" placeholder="Edite o roteiro, adicione observações da equipe, links de referência...">${localStorage.getItem('nota-'+iso) || ''}</textarea>
+        <textarea id="nota-${iso}" placeholder="Edite o roteiro, adicione observações da equipe, links de referência...">${escapeHtml(saved.anotacoes || '')}</textarea>
         <div class="botoes-modal">
           <button class="btn-salvar" onclick="salvarNota('${iso}')">Salvar anotação</button>
           <button class="btn-limpar" onclick="limparNota('${iso}')">Limpar</button>
         </div>
+        <div class="dica-salvo" id="dica-salvo-${iso}"></div>
       </div>
     </div>
   `;
   overlay.classList.add('aberto');
   travarScrollBody();
+
+  currentMediaIndex = Math.max(0, saved.mediaList.length - 1);
+  renderPreview(iso, saved.mediaList);
+
+  document.getElementById(`titulo-input-${iso}`).oninput = debounce(()=>salvarTitulo(iso), 500);
+  document.getElementById(`stories-btn-${iso}`).onclick = ()=>alternarStories(iso);
+  document.getElementById(`file-input-${iso}`).onchange = (e)=>handleImagem(e, iso);
+  document.getElementById(`attach-video-${iso}`).onclick = ()=>anexarLinkVideo(iso);
+  document.querySelectorAll('.tipo-btn').forEach(b=>{
+    b.onclick = ()=>definirTipo(iso, b.dataset.t);
+  });
+  document.querySelectorAll('.status-toggle button').forEach(b=>{
+    b.onclick = ()=>definirStatus(iso, b.dataset.s);
+  });
+  const notaCorrecaoEl = document.getElementById(`nota-correcao-${iso}`);
+  if(notaCorrecaoEl) notaCorrecaoEl.oninput = debounce(()=>salvarNotaCorrecao(iso), 600);
 }
 
 let scrollYAntesModal = 0;
@@ -1248,61 +1627,281 @@ function fecharModal(){
 overlay.addEventListener('click', (e) => { if(e.target === overlay) fecharModal(); });
 document.addEventListener('keydown', (e) => { if(e.key === 'Escape') fecharModal(); });
 
-function marcarDiaEditado(iso){
-  const diasEditados = lerDiasEditados();
-  diasEditados[iso] = true;
-  localStorage.setItem('diasEditados', JSON.stringify(diasEditados));
-  const celula = document.querySelector('.day[data-iso="'+iso+'"]');
-  if(celula) celula.classList.add('editado');
+async function salvarTitulo(iso){
+  const saved = postsCache[iso] || {status:'pendente'};
+  const val = document.getElementById(`titulo-input-${iso}`).value.trim();
+  saved.titulo = val;
+  postsCache[iso] = saved;
+  window.__refreshCell(iso, saved);
+  try{ await window.savePost(iso, saved); }catch(e){ console.error(e); }
 }
 
-function definirStatus(iso, status){
-  // "pendente" é o estado padrão: não guardamos chave no localStorage para ele,
-  // só gravamos quando o dia é marcado como "pronto" ou "publicado". Clicar de
-  // novo em Pendente remove a marcação e volta ao padrão, cancelando a opção anterior.
-  if(status === 'pronto' || status === 'publicado'){
-    localStorage.setItem('status-'+iso, status);
-  } else {
-    localStorage.removeItem('status-'+iso);
-  }
-
-  // Atualiza os botões dentro do modal
-  const btnPendente = document.getElementById('btn-pendente-'+iso);
-  const btnPronto = document.getElementById('btn-pronto-'+iso);
-  const btnPublicado = document.getElementById('btn-publicado-'+iso);
-  if(btnPendente) btnPendente.classList.toggle('ativo', status === 'pendente');
-  if(btnPronto) btnPronto.classList.toggle('ativo', status === 'pronto');
-  if(btnPublicado) btnPublicado.classList.toggle('ativo', status === 'publicado');
-
-  // Atualiza o quadradinho no calendário, automaticamente, sem precisar recarregar
-  const celula = document.querySelector('.day[data-iso="'+iso+'"]');
-  if(celula){
-    celula.classList.toggle('pronto', status === 'pronto');
-    celula.classList.toggle('publicado', status === 'publicado');
-  }
+async function definirTipo(iso, tipo){
+  const saved = postsCache[iso] || {status:'pendente'};
+  saved.tipo = tipo;
+  postsCache[iso] = saved;
+  document.querySelectorAll('.tipo-btn').forEach(b=>{
+    b.classList.toggle('ativo', b.dataset.t === tipo);
+  });
+  const topoEl = document.getElementById('modalTopEl');
+  if(topoEl){ topoEl.classList.remove('video','foto','evento'); topoEl.classList.add(tipo); }
+  const tagModalEl = document.getElementById('tagModalEl');
+  if(tagModalEl) tagModalEl.textContent = tipo === 'video' ? 'Conteúdo de Vídeo' : (tipo === 'foto' ? 'Conteúdo de Foto' : 'Evento da campanha');
+  window.__refreshCell(iso, saved);
+  try{ await window.savePost(iso, saved); }catch(e){ console.error(e); }
 }
 
-function salvarNota(iso){
-  const txt = document.getElementById('nota-'+iso).value;
-  localStorage.setItem('nota-'+iso, txt);
-  marcarDiaEditado(iso);
+async function alternarStories(iso){
+  const saved = postsCache[iso] || {status:'pendente'};
+  saved.stories = !saved.stories;
+  postsCache[iso] = saved;
+  const btn = document.getElementById(`stories-btn-${iso}`);
+  if(btn){
+    btn.classList.toggle('ativo', saved.stories);
+    btn.textContent = saved.stories ? '✓ Stories também vai ser postado' : '+ Acrescentar Stories';
+  }
+  window.__refreshCell(iso, saved);
+  try{ await window.savePost(iso, saved); }catch(e){ console.error(e); }
+}
+
+function renderPreview(iso, mediaList){
+  const area = document.getElementById(`preview-area-${iso}`);
+  if(!area) return;
+  if(!mediaList || mediaList.length===0){
+    area.innerHTML = `<span style="font-size:12px;color:var(--cinza);">Nada anexado ainda.</span>`;
+    return;
+  }
+  if(currentMediaIndex >= mediaList.length) currentMediaIndex = mediaList.length-1;
+  if(currentMediaIndex < 0) currentMediaIndex = 0;
+  const media = mediaList[currentMediaIndex];
+  const itemHTML = media.type==='image'
+    ? `<img src="${media.data}" />`
+    : `<a href="${media.data}" target="_blank" rel="noopener">🔗 ${media.data}</a>`;
+  const varias = mediaList.length > 1;
+  area.innerHTML = `
+    <div class="preview-item">${itemHTML}</div>
+    <div class="preview-controls">
+      ${varias ? `<button class="preview-arrow" id="prev-media-${iso}" ${currentMediaIndex===0?'disabled':''}>‹</button>` : ''}
+      <span class="preview-counter">${currentMediaIndex+1} / ${mediaList.length}</span>
+      ${varias ? `<button class="preview-arrow" id="next-media-${iso}" ${currentMediaIndex===mediaList.length-1?'disabled':''}>›</button>` : ''}
+      <button class="preview-remove" id="remove-media-${iso}">remover esta</button>
+    </div>
+  `;
+  const prevBtn = document.getElementById(`prev-media-${iso}`);
+  const nextBtn = document.getElementById(`next-media-${iso}`);
+  if(prevBtn) prevBtn.onclick = ()=>{ currentMediaIndex--; renderPreview(iso, mediaList); };
+  if(nextBtn) nextBtn.onclick = ()=>{ currentMediaIndex++; renderPreview(iso, mediaList); };
+  document.getElementById(`remove-media-${iso}`).onclick = ()=>removerMedia(iso);
+}
+
+async function handleImagem(e, iso){
+  const files = Array.from(e.target.files || []);
+  if(files.length===0) return;
+  const saved = postsCache[iso] || {status:'pendente'};
+  if(!saved.mediaList) saved.mediaList = [];
+  try{
+    for(const file of files){
+      let dataUrl = await window.__compressImage(file, 1000, 0.7);
+      if(dataUrl.length > 700000){ dataUrl = await window.__compressImage(file, 700, 0.55); }
+      if(dataUrl.length > 900000) continue;
+      saved.mediaList.push({ type:'image', data:dataUrl });
+    }
+    postsCache[iso] = saved;
+    await window.savePost(iso, saved);
+    currentMediaIndex = saved.mediaList.length - 1;
+    renderPreview(iso, saved.mediaList);
+    window.__refreshCell(iso, saved);
+    e.target.value = '';
+  }catch(err){ console.error(err); }
+}
+
+async function anexarLinkVideo(iso){
+  const input = document.getElementById(`video-link-${iso}`);
+  const url = input.value.trim();
+  if(!url) return;
+  const saved = postsCache[iso] || {status:'pendente'};
+  if(!saved.mediaList) saved.mediaList = [];
+  saved.mediaList.push({ type:'video', data:url });
+  postsCache[iso] = saved;
+  currentMediaIndex = saved.mediaList.length - 1;
+  renderPreview(iso, saved.mediaList);
+  input.value = '';
+  try{ await window.savePost(iso, saved); window.__refreshCell(iso, saved); }catch(e){ console.error(e); }
+}
+
+async function removerMedia(iso){
+  const saved = postsCache[iso] || {status:'pendente'};
+  if(!saved.mediaList) saved.mediaList = [];
+  saved.mediaList.splice(currentMediaIndex, 1);
+  postsCache[iso] = saved;
+  renderPreview(iso, saved.mediaList);
+  try{ await window.savePost(iso, saved); window.__refreshCell(iso, saved); }catch(e){ console.error(e); }
+}
+
+async function definirStatus(iso, status){
+  const saved = postsCache[iso] || {};
+  const anterior = saved.status || 'pendente';
+  const novo = (anterior === status) ? 'pendente' : status;
+  saved.status = novo;
+  postsCache[iso] = saved;
+
+  document.querySelectorAll('.status-toggle button').forEach(b=>{
+    b.classList.toggle('ativo', b.dataset.s === novo);
+  });
+  const wrap = document.getElementById(`nota-correcao-wrap-${iso}`);
+  if(wrap) wrap.style.display = (novo==='correcao') ? 'block' : 'none';
+
+  window.__refreshCell(iso, saved);
+  try{ await window.savePost(iso, saved); }catch(e){ console.error(e); }
+}
+
+async function salvarNotaCorrecao(iso){
+  const saved = postsCache[iso] || {status:'correcao'};
+  saved.nota_correcao = document.getElementById(`nota-correcao-${iso}`).value;
+  postsCache[iso] = saved;
+  try{ await window.savePost(iso, saved); }catch(e){ console.error(e); }
+}
+
+async function salvarNota(iso){
+  const saved = postsCache[iso] || {status:'pendente'};
+  saved.anotacoes = document.getElementById('nota-'+iso).value;
+  postsCache[iso] = saved;
+  window.__refreshCell(iso, saved);
   if(typeof window.mascoteAvisarEdicao === 'function'){
     const [ano, mes, dia] = iso.split('-');
     window.mascoteAvisarEdicao(dia + '/' + mes);
   }
   const btn = event.target;
   const original = btn.textContent;
-  btn.textContent = 'Salvo ✓';
-  setTimeout(()=> btn.textContent = original, 1200);
+  const dica = document.getElementById(`dica-salvo-${iso}`);
+  try{
+    await window.savePost(iso, saved);
+    btn.textContent = 'Salvo ✓';
+    setTimeout(()=> btn.textContent = original, 1200);
+  }catch(e){
+    console.error(e);
+    if(dica) dica.textContent = 'Não salvou no Firebase (veja as regras do Firestore).';
+  }
 }
-function limparNota(iso){
-  localStorage.removeItem('nota-'+iso);
+async function limparNota(iso){
+  const saved = postsCache[iso] || {status:'pendente'};
+  saved.anotacoes = '';
+  postsCache[iso] = saved;
   document.getElementById('nota-'+iso).value = '';
+  window.__refreshCell(iso, saved);
   if(typeof window.mascoteAvisarEdicao === 'function'){
     const [ano, mes, dia] = iso.split('-');
     window.mascoteAvisarEdicao(dia + '/' + mes);
   }
+  try{ await window.savePost(iso, saved); }catch(e){ console.error(e); }
 }
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBWQnO-ELZFNWn7rSvH-sIEMZ5SttQFOtw",
+  authDomain: "soft-pluma-calendario.firebaseapp.com",
+  projectId: "soft-pluma-calendario",
+  storageBucket: "soft-pluma-calendario.firebasestorage.app",
+  messagingSenderId: "1043082501882",
+  appId: "1:1043082501882:web:5d32e28e89646f439cf343"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const COLECAO = "magazineduarte_posts";
+
+window.loadPost = async function(id){
+  try{
+    const snap = await getDoc(doc(db, COLECAO, id));
+    return snap.exists() ? snap.data() : null;
+  }catch(e){
+    console.error("Erro ao carregar post:", e);
+    return null;
+  }
+};
+
+window.savePost = async function(id, data){
+  await setDoc(doc(db, COLECAO, id), data);
+};
+
+window.__compressImage = function(file, maxWidth, quality){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = (e)=>{
+      const img = new Image();
+      img.onload = ()=>{
+        const scale = Math.min(1, maxWidth / img.width);
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL("image/jpeg", quality));
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+};
+
+window.__refreshCell = function(iso, data){
+  const celula = document.querySelector('.day[data-iso="'+iso+'"]');
+  if(!celula) return;
+  const dado = window.CONTEUDOS ? window.CONTEUDOS[iso] : null;
+  const d = data || {};
+  const titulo = (d.titulo !== undefined && d.titulo !== '') ? d.titulo : (dado ? dado.titulo : null);
+  const status = d.status || 'pendente';
+  const tipo = d.tipo || (dado ? dado.tipo : 'video');
+  const stories = !!d.stories;
+  const temAnotacao = !!(d.anotacoes && d.anotacoes.trim());
+
+  celula.classList.remove('tem-conteudo','video','foto','evento','editado','publicado','pronto','aprovado','reprovado','correcao','aberto','stories-only');
+  celula.querySelectorAll('.tag, .titulo-mini, .aberto-label').forEach(el=>el.remove());
+
+  if(!titulo){
+    if(stories){
+      celula.classList.add('stories-only');
+      const lbl = document.createElement('div');
+      lbl.className = 'aberto-label';
+      lbl.textContent = 'Stories';
+      celula.appendChild(lbl);
+    } else {
+      celula.classList.add('aberto');
+      const lbl = document.createElement('div');
+      lbl.className = 'aberto-label';
+      lbl.textContent = 'Em aberto';
+      celula.appendChild(lbl);
+    }
+    return;
+  }
+
+  celula.classList.add('tem-conteudo', tipo);
+  if(temAnotacao) celula.classList.add('editado');
+  if(['publicado','pronto','aprovado','reprovado','correcao'].includes(status)){
+    celula.classList.add(status);
+  }
+
+  const tag = document.createElement('div');
+  tag.className = 'tag ' + tipo;
+  tag.textContent = tipo === 'video' ? 'Vídeo' : (tipo === 'foto' ? 'Foto' : 'Evento');
+  celula.appendChild(tag);
+
+  const mini = document.createElement('div');
+  mini.className = 'titulo-mini';
+  mini.textContent = titulo + (stories ? ' · Stories' : '');
+  celula.appendChild(mini);
+};
+
+onSnapshot(collection(db, COLECAO), (snap)=>{
+  snap.docChanges().forEach(change=>{
+    window.__refreshCell(change.doc.id, change.doc.data());
+  });
+});
 </script>
 </body>
 </html>
